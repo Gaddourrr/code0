@@ -2,8 +2,8 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Valentine 💖</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <style>
       * {
@@ -85,7 +85,7 @@
         position: absolute;
       }
 
-      /* Success screen */
+      /* SUCCESS */
       .success {
         display: none;
         color: white;
@@ -93,14 +93,13 @@
 
       .success h2 {
         font-size: 2.5rem;
-        font-weight: bold;
         margin-bottom: 20px;
       }
 
-      .success img {
-        width: 200px;
-        max-width: 80%;
-        border-radius: 20px;
+      .big-gif {
+        width: 450px;
+        max-width: 90%;
+        border-radius: 80px;
       }
 
       .graffiti {
@@ -117,23 +116,48 @@
           transform: rotate(7deg);
         }
       }
+
+      /* SPINNING HEART */
+      #spinHeart {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 110px;
+        z-index: 999;
+        animation: spin 1.5s linear infinite;
+      }
+
+      @keyframes spin {
+        from {
+          transform: translate(-50%, -50%) rotate(0deg);
+        }
+        to {
+          transform: translate(-50%, -50%) rotate(360deg);
+        }
+      }
     </style>
   </head>
+
   <body>
-    <!-- Background Music -->
-    <audio id="bgSong" autoplay loop muted>
+    <!-- MUSIC -->
+    <audio id="bgSong" loop autoplay>
       <source
         src="lana del rey - video games __ edit audio [rq] - samcsy.mp3"
         type="audio/mpeg"
       />
     </audio>
 
-    <!-- Floating Hearts Script -->
+    <!-- SPIN HEART -->
+    <div id="spinHeart">❤️</div>
+
+    <!-- Floating hearts -->
     <script>
       for (let i = 0; i < 30; i++) {
-        let heart = document.createElement("div");
+        const heart = document.createElement("div");
         heart.className = "heart";
-        heart.innerHTML = "❤️";
+        heart.textContent = "❤️";
         heart.style.left = Math.random() * 100 + "vw";
         heart.style.animationDuration = Math.random() * 3 + 4 + "s";
         heart.style.fontSize = Math.random() * 20 + 15 + "px";
@@ -141,22 +165,21 @@
       }
     </script>
 
-    <div class="container" id="main">
+    <!-- MAIN -->
+    <div id="main" class="container">
       <h1>Preeti, will you be my Valentine? 😁💘</h1>
-
       <div class="buttons">
         <button id="yesBtn">YES</button>
-        <div>
-          <button id="noBtn">NO</button>
-        </div>
-        
+        <div><button id="noBtn">NO</button></div>
       </div>
     </div>
 
-    <div class="container success" id="success">
+    <!-- SUCCESS -->
+    <div class="success container" id="success">
       <h2>I knew you love me ❤️🔥</h2>
       <img
         src="https://media0.giphy.com/media/WZ8zjeFGNBQu4/giphy.gif"
+        class="big-gif"
         alt="bear hug gif"
       />
       <div class="graffiti">You are the best ❤️💃</div>
@@ -167,9 +190,10 @@
       const yesBtn = document.getElementById("yesBtn");
       const main = document.getElementById("main");
       const success = document.getElementById("success");
+      const spinHeart = document.getElementById("spinHeart");
       const song = document.getElementById("bgSong");
 
-      // Move NO button randomly
+      // NO button escapes
       function moveNo() {
         const x = Math.random() * 200 - 100;
         const y = Math.random() * 200 - 100;
@@ -179,23 +203,20 @@
       noBtn.addEventListener("mouseover", moveNo);
       noBtn.addEventListener("touchstart", moveNo);
 
-      // YES button click
+      // YES click → heart spin → success
       yesBtn.addEventListener("click", () => {
         main.style.display = "none";
-        success.style.display = "block";
+        spinHeart.style.display = "block";
+
+        setTimeout(() => {
+          spinHeart.style.display = "none";
+          success.style.display = "block";
+        }, 1500);
       });
 
-      // Unlock audio on mobile
-      const unlockAudio = () => {
-        song.muted = false;
-        song.play();
-        document.removeEventListener("click", unlockAudio);
-        document.removeEventListener("touchstart", unlockAudio);
-      };
-
-      window.addEventListener("load", () => {
-        song.muted = false;
-        song.play().catch(() => {});
+      // Music fallback for mobile
+      document.addEventListener("click", () => {
+        if (song.paused) song.play().catch(() => {});
       });
     </script>
   </body>
