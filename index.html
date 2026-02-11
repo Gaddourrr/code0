@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Valentine 💖</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Arial", sans-serif;
+      }
+
+      body {
+        height: 100vh;
+        overflow: hidden;
+        background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+
+      /* Floating hearts */
+      .heart {
+        position: absolute;
+        font-size: 20px;
+        animation: float 6s linear infinite;
+        opacity: 0.8;
+      }
+
+      @keyframes float {
+        0% {
+          transform: translateY(100vh) scale(0.5);
+          opacity: 0;
+        }
+        50% {
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-10vh) scale(1.2);
+          opacity: 0;
+        }
+      }
+
+      .container {
+        z-index: 10;
+        padding: 20px;
+      }
+
+      h1 {
+        font-size: 2.2rem;
+        font-weight: bold;
+        color: #fff;
+        margin-bottom: 30px;
+        text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
+      }
+
+      .buttons {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        position: relative;
+      }
+
+      button {
+        padding: 15px 30px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+      }
+
+      #yesBtn {
+        background-color: #28a745;
+        color: white;
+      }
+
+      #noBtn {
+        background-color: #dc3545;
+        color: white;
+        position: absolute;
+      }
+
+      /* Success screen */
+      .success {
+        display: none;
+        color: white;
+      }
+
+      .success h2 {
+        font-size: 2.5rem;
+        font-weight: bold;
+        margin-bottom: 20px;
+      }
+
+      .success img {
+        width: 200px;
+        max-width: 80%;
+        border-radius: 20px;
+      }
+
+      .graffiti {
+        font-size: 1.8rem;
+        margin-top: 20px;
+        animation: shake 1s infinite alternate;
+      }
+
+      @keyframes shake {
+        from {
+          transform: rotate(-7deg);
+        }
+        to {
+          transform: rotate(7deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Background Music -->
+    <audio id="bgSong" autoplay loop muted>
+      <source
+        src="lana del rey - video games __ edit audio [rq] - samcsy.mp3"
+        type="audio/mpeg"
+      />
+    </audio>
+
+    <!-- Floating Hearts Script -->
+    <script>
+      for (let i = 0; i < 30; i++) {
+        let heart = document.createElement("div");
+        heart.className = "heart";
+        heart.innerHTML = "❤️";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDuration = Math.random() * 3 + 4 + "s";
+        heart.style.fontSize = Math.random() * 20 + 15 + "px";
+        document.body.appendChild(heart);
+      }
+    </script>
+
+    <div class="container" id="main">
+      <h1>Preeti, will you be my Valentine? 😁💘</h1>
+
+      <div class="buttons">
+        <button id="yesBtn">YES</button>
+        <div>
+          <button id="noBtn">NO</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="container success" id="success">
+      <h2>I knew you love me ❤️🔥</h2>
+      <img
+        src="https://media0.giphy.com/media/WZ8zjeFGNBQu4/giphy.gif"
+        alt="bear hug gif"
+      />
+      <div class="graffiti">You are the best ❤️💃</div>
+    </div>
+
+    <script>
+      const noBtn = document.getElementById("noBtn");
+      const yesBtn = document.getElementById("yesBtn");
+      const main = document.getElementById("main");
+      const success = document.getElementById("success");
+      const song = document.getElementById("bgSong");
+
+      // Move NO button randomly
+      function moveNo() {
+        const x = Math.random() * 200 - 100;
+        const y = Math.random() * 200 - 100;
+        noBtn.style.transform = `translate(${x}px, ${y}px)`;
+      }
+
+      noBtn.addEventListener("mouseover", moveNo);
+      noBtn.addEventListener("touchstart", moveNo);
+
+      // YES button click
+      yesBtn.addEventListener("click", () => {
+        main.style.display = "none";
+        success.style.display = "block";
+      });
+
+      // Unlock audio on mobile
+      const unlockAudio = () => {
+        song.muted = false;
+        song.play();
+        document.removeEventListener("click", unlockAudio);
+        document.removeEventListener("touchstart", unlockAudio);
+      };
+
+      window.addEventListener("load", () => {
+        song.muted = false;
+        song.play().catch(() => {});
+      });
+
+      document.addEventListener("click", unlockAudio);
+      document.addEventListener("touchstart", unlockAudio);
+    </script>
+  </body>
+</html>
