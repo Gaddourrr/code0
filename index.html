@@ -149,6 +149,7 @@
         <div>
           <button id="noBtn">NO</button>
         </div>
+        
       </div>
     </div>
 
@@ -188,15 +189,14 @@
       const unlockAudio = () => {
         song.muted = false;
         song.play();
-        
+        document.removeEventListener("click", unlockAudio);
+        document.removeEventListener("touchstart", unlockAudio);
       };
 
       window.addEventListener("load", () => {
         song.muted = false;
         song.play().catch(() => {});
       });
-
-  
     </script>
   </body>
 </html>
